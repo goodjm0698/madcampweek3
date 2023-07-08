@@ -1,0 +1,41 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="madcamp.second.mapper.UserMapper">
+
+    <select id="getLettersBySender">
+        SELECT *
+        FROM letter
+        WHERE sender_id = #{senderId}
+    </select>
+
+    <select id="getLettersByReceiver">
+        SELECT *
+        FROM letter
+        WHERE receiver_id = #{receiverId}
+    </select>
+
+    <select id="getLetterById">
+        SELECT *
+        FROM letter
+        WHERE id = #{id}
+    </select>
+
+    <insert id="createLetter">
+        INSERT INTO letter
+            (id, sender_id, receiver_id, text, date, is_ano)
+        VALUES
+            (#{id}, #{senderId}, #{receiverId}, #{text}, #{date}, #{isAno})
+    </insert>
+
+    <update id="updateLetter">
+        UPDATE letter
+        SET text = #{text},
+            is_ano = #{isAno}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="withdrawUser">
+        DELETE
+        FROM letter
+        WHERE id=#{id}
+    </delete>
+</mapper>
