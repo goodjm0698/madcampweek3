@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+    implementation("io.jsonwebtoken:jjwt:0.9.0")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")

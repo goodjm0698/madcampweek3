@@ -14,8 +14,6 @@ public class LetterServiceImp implements LetterService {
     @Autowired
     LetterMapper letterMapper;
 
-
-
     @Override
     public List<Letter> getLettersBySender(Long senderId) {
         return letterMapper.getLettersBySender(senderId);

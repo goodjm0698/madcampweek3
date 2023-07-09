@@ -17,6 +17,7 @@ public class Letter {
     Long senderId;
     Long receiverId;
     String text;
-    LocalDate date;
+    LocalDate generatedDate;
+    LocalDate openDate;
     int isAno;
 }

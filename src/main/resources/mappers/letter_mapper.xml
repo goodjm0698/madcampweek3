@@ -21,19 +21,20 @@
 
     <insert id="createLetter">
         INSERT INTO letter
-            (id, sender_id, receiver_id, text, date, is_ano)
+            (id, sender_id, receiver_id, text, generated_date, open_date,  is_ano)
         VALUES
-            (#{id}, #{senderId}, #{receiverId}, #{text}, #{date}, #{isAno})
+            (#{id}, #{senderId}, #{receiverId}, #{text}, #{generatedDate}, #{openDate}, #{isAno})
     </insert>
 
     <update id="updateLetter">
         UPDATE letter
         SET text = #{text},
+            open_date = #{openDate},
             is_ano = #{isAno}
         WHERE id = #{id}
     </update>
 
-    <delete id="withdrawUser">
+    <delete id="withdrawLetter">
         DELETE
         FROM letter
         WHERE id=#{id}

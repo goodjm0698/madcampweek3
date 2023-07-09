@@ -1,22 +1,24 @@
 package madcamp.second.controller;
 
+import madcamp.second.model.LoginForm;
 import madcamp.second.model.User;
 import madcamp.second.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import madcamp.second.serviceImp.KakaoService;
 
 import java.util.Map;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:5000")
 public class MainController {
     @Autowired
     KakaoService kakaoService;
@@ -24,19 +26,23 @@ public class MainController {
     @Autowired
     UserService userService;
 
-    @GetMapping("test")
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+
+    @GetMapping("/test")
     @ResponseBody
     public String testConnect()
     {
         return "connection established";
     }
 
-    @GetMapping("kakao/sign_in")
+    @GetMapping("/kakao/sign_in")
             public String kakaoSignIn(@RequestParam("code") String code)
     {
         Map<String, Object> result = kakaoService.execKakaoLogin(code);
 
-        return "redirect:webauthcallback://success?cusomToken="+result.get("customToken").toString();
+        return "redirect:webauthcallback://success?customToken="+result.get("customToken").toString();
     }
 
     @GetMapping("/")
@@ -59,8 +65,8 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/login_done")
-    public String loginPage()
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String getLoginPage()
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken)
@@ -69,8 +75,30 @@ public class MainController {
         return "redirect:/";
     }
 
+    @PostMapping("/auth")
+    public ResponseEntity<String> login(@RequestBody LoginForm loginForm)
+    {
+        String email = loginForm.getEmail();
+        String password = loginForm.getPassword();
+
+        try
+        {
+            UsernamePasswordAuthenticationToken token = userService.login(email, password);
+            Authentication authentication = authenticationManager.authenticate(token);
+            String body = userService.generateToken(token);
+
+            return ResponseEntity.ok(body);
+        }
+        catch (Exception e)
+        {
+            String error = "Login failed";
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     @GetMapping("/signup")
-    public String signupPage()
+    public String getSignupPage()
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken)

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Modify Information</title>
+  <link rel="stylesheet" type="text/css" href="/css/editProfilePage.css">
+</head>
+<body>
+<h2>회원 정보 수정</h2>
+<form th:action="@{/updateProfile}" method="post">
+
+  <p>
+    Username<br>
+    <input type="text" name="username" th:value="${user.username}"/>
+  </p>
+  <p>
+    Email<br>
+    <input type="text" name="email" th:value="${user.email}"/>
+  </p>
+  <p>
+    Password<br>
+    <input type="password" name="password" placeholder="Password를 입력해주세요"/>
+  </p>
+
+  <button type="submit">저장하기</button>
+</form>
+</body>
+</html>

@@ -2,12 +2,21 @@ package madcamp.second.serviceImp;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import madcamp.second.mapper.UserMapper;
 import madcamp.second.model.User;
 import madcamp.second.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -16,6 +25,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -36,6 +48,12 @@ public class UserServiceImp implements UserService {
     {
         return userMapper.getUserByEmail(email);
     }
+
+    @Value("${app.jwtSecret}")
+    String jwtSecret;
+
+    @Value("${app.jwtExpirationsMs}")
+    private int jwtExpirationMs;
 
     @Override
     public void signup(User user)
@@ -63,6 +81,24 @@ public class UserServiceImp implements UserService {
     public PasswordEncoder passwordEncoder()
     {
         return this.passwordEncoder;
+    }
+
+    @Override
+    public UsernamePasswordAuthenticationToken login(String email, String password)
+    {
+        UsernamePasswordAuthenticationToken token;
+        User user = userMapper.getUserByEmail(email);
+
+        if(user!=null && passwordEncoder.matches(password, user.getPassword()))
+        {
+            List<GrantedAuthority> roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority("USER"));
+
+            token = new UsernamePasswordAuthenticationToken(user.getId(), null, roles);
+
+            return token;
+        }
+        throw new BadCredentialsException("No such user or wrong password");
     }
 
     @Override
@@ -122,5 +158,20 @@ public class UserServiceImp implements UserService {
         }
 
         return accessToken;
+    }
+
+    @Override
+    public String generateToken(Authentication authentication)
+    {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+
+
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
     }
 }
