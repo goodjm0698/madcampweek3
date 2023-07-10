@@ -1,19 +1,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="madcamp.second.mapper.UserMapper">
+<mapper namespace="madcamp.second.mapper.LetterMapper">
 
-    <select id="getLettersBySender">
+    <select id="getLettersBySender" resultType="Letter">
         SELECT id
         FROM letter
         WHERE sender_id = #{senderId}
     </select>
 
-    <select id="getLettersByReceiver">
+    <select id="getLettersByReceiver" resultType="Letter">
         SELECT id
         FROM letter
         WHERE receiver_id = #{receiverId}
     </select>
 
-    <select id="getLetterById">
+    <select id="getLetterById" resultType="Letter">
         SELECT *
         FROM letter
         WHERE id = #{id}
