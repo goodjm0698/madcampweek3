@@ -14,7 +14,7 @@ public interface UserService {
     PasswordEncoder passwordEncoder();
     String getAccessToken(String code);
 
-    UsernamePasswordAuthenticationToken login(String email, String password);
+    Authentication login(String email, String password);
 
     String generateToken(Authentication authentication);
 

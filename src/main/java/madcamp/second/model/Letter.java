@@ -20,4 +20,7 @@ public class Letter {
     LocalDate generatedDate;
     LocalDate openDate;
     int isAno;
+    Long posX;
+    Long posY;
+    int imgType;
 }

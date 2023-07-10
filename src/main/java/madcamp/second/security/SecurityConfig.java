@@ -16,45 +16,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception
-    {
-        return super.authenticationManagerBean();
-    }
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
     {
         http
                 .authorizeHttpRequests(auth -> auth
                         .antMatchers("/signup/**", "/login/**", "/auth/**", "/").permitAll()
                         .anyRequest().authenticated()
                 );
-//
-//        http
-//                .formLogin(login -> login
-//                        .permitAll()
-//                        .loginProcessingUrl("/auth")
-//                        .usernameParameter("email")
-//                        .passwordParameter("password")
-//                );
 
-        http
-                .logout(logout -> logout
-                        .logoutUrl("logout")
-                        .logoutSuccessUrl("/")
-                );
-
+        http.formLogin().disable();
         http.csrf().disable();
+        http.httpBasic().disable();
 
-//        http
-//                .oauth2Login()
-//                .loginPage("/login")
-//                .userInfoEndpoint();
-
+        return http.build();
     }
 
     @Bean

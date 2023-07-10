@@ -1,8 +1,10 @@
 package madcamp.second.controller;
 
 import madcamp.second.model.LoginForm;
+import madcamp.second.model.SignUpForm;
 import madcamp.second.model.User;
 import madcamp.second.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -25,10 +27,6 @@ public class MainController {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    AuthenticationManager authenticationManager;
-
 
     @GetMapping("/test")
     @ResponseBody
@@ -83,8 +81,7 @@ public class MainController {
 
         try
         {
-            UsernamePasswordAuthenticationToken token = userService.login(email, password);
-            Authentication authentication = authenticationManager.authenticate(token);
+            Authentication token = userService.login(email, password);
             String body = userService.generateToken(token);
 
             return ResponseEntity.ok(body);
@@ -107,18 +104,24 @@ public class MainController {
     }
 
     @PostMapping("/signup")
-    public String signup(User user)
+    public ResponseEntity<String> signup(@RequestBody SignUpForm signUpForm)
     {
         try
         {
+            User user = new User();
+            user.setEmail(signUpForm.getEmail());
+            user.setUsername(signUpForm.getUsername());
+            user.setPassword(signUpForm.getPassword());
             userService.signup(user);
         }
         catch(Exception e)
         {
             e.printStackTrace();
-            return "redirect:/";
+            String error = "Something went wrong check terminal";
+            return ResponseEntity.badRequest().body(error);
         }
-        return "redirect:/login";
+        String response = "successfully enrolled ";
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/updateProfile")

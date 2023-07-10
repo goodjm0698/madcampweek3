@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -56,8 +56,13 @@ public class UserServiceImp implements UserService {
     private int jwtExpirationMs;
 
     @Override
-    public void signup(User user)
+    public void signup(User user) throws BadCredentialsException
     {
+        if(getUserByEmail(user.getEmail()) != null)
+        {
+            throw new BadCredentialsException("this email is already in use");
+        }
+
         if(!user.getUsername().equals("") && !user.getEmail().equals(""))
         {
             user.setPassword(passwordEncoder().encode(user.getPassword()));
@@ -84,7 +89,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UsernamePasswordAuthenticationToken login(String email, String password)
+    public Authentication login(String email, String password) throws AuthenticationException
     {
         UsernamePasswordAuthenticationToken token;
         User user = userMapper.getUserByEmail(email);
@@ -121,7 +126,7 @@ public class UserServiceImp implements UserService {
             sb.append("grant_type=authentication_code");
 
             sb.append("&client_id=61cf0a365da5ecf4a1c4bd3d12aed9ab");
-            sb.append("&redirect_uri=http://localhost:8081/kakao/login_done");
+            sb.append("&redirect_uri=http://localhost:8080/kakao/login_done");
 
             sb.append("&code=" + code);
             bw.write(sb.toString());
