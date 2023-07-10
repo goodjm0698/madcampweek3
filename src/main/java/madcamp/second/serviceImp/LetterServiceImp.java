@@ -3,9 +3,11 @@ package madcamp.second.serviceImp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import madcamp.second.mapper.LetterMapper;
 import madcamp.second.model.Letter;
+import madcamp.second.security.JwtTokenUtil;
 import madcamp.second.service.LetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ public class LetterServiceImp implements LetterService {
     @Autowired
     LetterMapper letterMapper;
 
+
+
     @Override
     public List<Letter> getLettersBySender(Long senderId) {
         return letterMapper.getLettersBySender(senderId);
@@ -21,6 +25,7 @@ public class LetterServiceImp implements LetterService {
 
     @Override
     public List<Letter> getLettersByReceiver(Long receiverId) {
+
         return letterMapper.getLettersByReceiver(receiverId);
     }
 

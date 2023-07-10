@@ -3,6 +3,7 @@ package madcamp.second.controller;
 import madcamp.second.model.LoginForm;
 import madcamp.second.model.SignUpForm;
 import madcamp.second.model.User;
+import madcamp.second.security.JwtTokenUtil;
 import madcamp.second.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class MainController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/test")
     @ResponseBody
@@ -82,7 +86,8 @@ public class MainController {
         try
         {
             Authentication token = userService.login(email, password);
-            String body = userService.generateToken(token);
+            String body = jwtTokenUtil.generateToken(token);
+
 
             return ResponseEntity.ok(body);
         }

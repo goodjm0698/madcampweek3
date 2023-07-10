@@ -16,6 +16,5 @@ public interface UserService {
 
     Authentication login(String email, String password);
 
-    String generateToken(Authentication authentication);
 
 }

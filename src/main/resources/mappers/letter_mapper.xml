@@ -2,13 +2,13 @@
 <mapper namespace="madcamp.second.mapper.UserMapper">
 
     <select id="getLettersBySender">
-        SELECT *
+        SELECT id
         FROM letter
         WHERE sender_id = #{senderId}
     </select>
 
     <select id="getLettersByReceiver">
-        SELECT *
+        SELECT id
         FROM letter
         WHERE receiver_id = #{receiverId}
     </select>

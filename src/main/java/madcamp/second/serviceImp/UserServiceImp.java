@@ -49,11 +49,7 @@ public class UserServiceImp implements UserService {
         return userMapper.getUserByEmail(email);
     }
 
-    @Value("${app.jwtSecret}")
-    String jwtSecret;
 
-    @Value("${app.jwtExpirationsMs}")
-    private int jwtExpirationMs;
 
     @Override
     public void signup(User user) throws BadCredentialsException
@@ -165,18 +161,5 @@ public class UserServiceImp implements UserService {
         return accessToken;
     }
 
-    @Override
-    public String generateToken(Authentication authentication)
-    {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
-
-        return Jwts.builder()
-                .setSubject(authentication.getName())
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
 }
