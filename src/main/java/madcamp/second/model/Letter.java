@@ -2,10 +2,7 @@ package madcamp.second.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -13,14 +10,33 @@ import java.time.LocalDate;
 public class Letter {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     Long id;
-    Long senderId;
-    Long receiverId;
-    String text;
-    LocalDate generatedDate;
-    LocalDate openDate;
-    int isAno;
-    Long posX;
-    Long posY;
-    int imgType;
+
+    @Column(name = "sender_id")
+    private Long senderId;
+
+    @Column(name = "receiver_id")
+    private Long receiverId;
+
+    @Column(name = "text")
+    private String text;
+
+    @Column(name = "generated_date")
+    private LocalDate generatedDate;
+
+    @Column(name = "open_date")
+    private LocalDate openDate;
+
+    @Column(name = "is_ano")
+    private int isAno;
+
+    @Column(name = "pos_x")
+    private int posX;
+
+    @Column(name = "pos_y")
+    private int posY;
+
+    @Column(name = "img_type")
+    private int imgType;
 }

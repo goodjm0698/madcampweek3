@@ -8,6 +8,7 @@ import madcamp.second.security.JwtTokenUtil;
 import madcamp.second.service.LetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,13 +40,36 @@ public class LetterController
     public ResponseEntity<String> receivedLetters(@RequestHeader("Authorization") String token) throws JsonProcessingException {
         try
         {
-            String userId = jwtTokenUtil.extractUserId(token.substring(7));
-            Long receiverId = Long.parseLong(userId);
-            List<Letter> letters = letterService.getLettersByReceiver(receiverId);
+            Long receiverId = jwtTokenUtil.extractUserId(token.substring(7));
+            List<Long> letters = letterService.getLettersByReceiver(receiverId);
             String json = objectMapper.writeValueAsString(letters);
             return ResponseEntity.ok(json);
         }
         catch(JsonProcessingException e)
+        {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("request failed");
+    }
+
+    @GetMapping("/letter")
+    public ResponseEntity<String> getLetter(@RequestHeader("Authorization") String token, @RequestParam Long id)
+    {
+        try
+        {
+            Long userId = jwtTokenUtil.extractUserId(token.substring(7));
+
+            Letter letter = letterService.getLetterById(id);
+
+            if(userId!=letter.getReceiverId())
+            {
+                throw new BadCredentialsException("You are not receiver");
+            }
+
+            String json = objectMapper.writeValueAsString(letter);
+            return ResponseEntity.ok(json);
+        }
+        catch(Exception e)
         {
             e.printStackTrace();
         }

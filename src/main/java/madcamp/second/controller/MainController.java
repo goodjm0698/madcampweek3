@@ -1,5 +1,6 @@
 package madcamp.second.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import madcamp.second.model.LoginForm;
 import madcamp.second.model.SignUpForm;
 import madcamp.second.model.User;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import madcamp.second.serviceImp.KakaoService;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -31,6 +33,8 @@ public class MainController {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping("/test")
     @ResponseBody
@@ -97,6 +101,24 @@ public class MainController {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(error);
         }
+    }
+
+    @GetMapping("users")
+    public ResponseEntity<String> getUserList(@RequestHeader("Authorization") String token)
+    {
+        try
+        {
+            Long userId = jwtTokenUtil.extractUserId(token.substring(7));
+
+            List<User> users = userService.getUserList();
+            String json = objectMapper.writeValueAsString(users);
+            return ResponseEntity.ok(json);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("UserList request failed");
     }
 
     @GetMapping("/signup")

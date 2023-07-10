@@ -161,5 +161,9 @@ public class UserServiceImp implements UserService {
         return accessToken;
     }
 
-
+    @Override
+    public List<User> getUserList()
+    {
+        return userMapper.getUserList();
+    }
 }

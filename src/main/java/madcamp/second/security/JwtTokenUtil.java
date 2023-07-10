@@ -53,10 +53,12 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public String extractUserId(String token)
+    public Long extractUserId(String token)
     {
-        return Optional.ofNullable(token)
+        String subject = Optional.ofNullable(token)
                 .map(t -> Jwts.parser().setSigningKey(jwtSecret.getBytes()).parseClaimsJws(t).getBody().getSubject())
                 .orElseThrow(() -> new IllegalArgumentException("Token is null"));
+
+        return Long.parseLong(subject);
     }
 }

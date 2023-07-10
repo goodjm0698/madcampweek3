@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface LetterMapper {
     List<Letter> getLettersBySender(Long senderId);
-    List<Letter> getLettersByReceiver(Long receiverId);
+    List<Long> getLettersByReceiver(Long receiverId);
     Letter getLetterById(Long id);
     void createLetter(Letter letter);
     void updateLetter(Letter letter);

@@ -24,7 +24,7 @@ public class LetterServiceImp implements LetterService {
     }
 
     @Override
-    public List<Letter> getLettersByReceiver(Long receiverId) {
+    public List<Long> getLettersByReceiver(Long receiverId) {
 
         return letterMapper.getLettersByReceiver(receiverId);
     }
