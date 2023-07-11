@@ -21,7 +21,7 @@
     </select>
 
     <select id="getLettersByReceiver" resultMap="LetterResultMap">
-        SELECT id, pos_x, pos_y
+        SELECT *
         FROM letter
         WHERE receiver_id = #{receiverId}
     </select>
