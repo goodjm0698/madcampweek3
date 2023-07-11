@@ -2,6 +2,7 @@ package madcamp.second.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nimbusds.oauth2.sdk.Response;
 import madcamp.second.model.Letter;
 import madcamp.second.security.JwtTokenUtil;
@@ -26,7 +27,7 @@ public class LetterController
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @GetMapping("/sent_letters")
     public ResponseEntity<String> sentLetters() throws JsonProcessingException {
@@ -41,7 +42,7 @@ public class LetterController
         try
         {
             Long receiverId = jwtTokenUtil.extractUserId(token.substring(7));
-            List<Long> letters = letterService.getLettersByReceiver(receiverId);
+            List<Letter> letters = letterService.getLettersByReceiver(receiverId);
             String json = objectMapper.writeValueAsString(letters);
             return ResponseEntity.ok(json);
         }

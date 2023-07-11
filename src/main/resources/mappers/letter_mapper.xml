@@ -20,8 +20,8 @@
         WHERE sender_id = #{senderId}
     </select>
 
-    <select id="getLettersByReceiver" resultType="Long">
-        SELECT id
+    <select id="getLettersByReceiver" resultMap="LetterResultMap">
+        SELECT id, pos_x, pos_y
         FROM letter
         WHERE receiver_id = #{receiverId}
     </select>

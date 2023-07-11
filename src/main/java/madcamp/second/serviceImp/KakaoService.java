@@ -41,7 +41,7 @@ public class KakaoService {
 
             connection.setRequestMethod("GET");
 
-            connection.setRequestProperty("Authorization", "Bearer" + access_token);
+            connection.setRequestProperty("Authorization", "Bearer " + access_token);
 
             int responseCode = connection.getResponseCode();
 
@@ -95,7 +95,7 @@ public class KakaoService {
 
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=03121ea92a07aca04abc58e321f84cef");
-            sb.append("&redirect_ur=http://ipaddress/sign_in");
+            sb.append("&redirect_ur=http://127.0.0.1/sign_in");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();

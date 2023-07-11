@@ -16,15 +16,13 @@ public class LetterServiceImp implements LetterService {
     @Autowired
     LetterMapper letterMapper;
 
-
-
     @Override
     public List<Letter> getLettersBySender(Long senderId) {
         return letterMapper.getLettersBySender(senderId);
     }
 
     @Override
-    public List<Long> getLettersByReceiver(Long receiverId) {
+    public List<Letter> getLettersByReceiver(Long receiverId) {
 
         return letterMapper.getLettersByReceiver(receiverId);
     }

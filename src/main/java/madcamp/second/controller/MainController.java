@@ -36,6 +36,24 @@ public class MainController {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @GetMapping("/user")
+    public ResponseEntity<String> getUserWithId(@RequestHeader("authorization") String token, @RequestParam Long id)
+    {
+        try
+        {
+            Long userId = jwtTokenUtil.extractUserId(token.substring(7));
+
+            String username = userService.getUserById(id).getUsername();
+            String json = objectMapper.writeValueAsString(username);
+            return ResponseEntity.ok(json);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("User request failed");
+    }
+
     @GetMapping("/test")
     @ResponseBody
     public String testConnect()
