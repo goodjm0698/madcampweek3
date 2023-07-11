@@ -37,7 +37,7 @@ public class MainController {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping("/user")
-    public ResponseEntity<String> getUserWithId(@RequestHeader("authorization") String token, @RequestParam(value = "id", required = false) Long id)
+    public ResponseEntity<String> getUserWithId(@RequestHeader("Authorization") String token, @RequestParam(value = "id", required = false) Long id)
     {
         try
         {
