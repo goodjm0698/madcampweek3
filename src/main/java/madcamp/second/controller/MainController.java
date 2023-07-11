@@ -117,7 +117,7 @@ public class MainController {
         {
             String error = "Login failed";
             e.printStackTrace();
-            return ResponseEntity.badRequest().body(error);
+            return ResponseEntity.badRequest().body(e.getStackTrace().toString());
         }
     }
 
