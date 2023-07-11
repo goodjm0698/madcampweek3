@@ -50,13 +50,13 @@ public class KakaoService {
                 newUser.setUsername(nickname);
                 newUser.setEmail(accessToken.substring(3));
                 newUser.setPassword(accessToken);
-                List<GrantedAuthority> roles = new ArrayList<>();
-                roles.add(new SimpleGrantedAuthority("USER"));
 
-                token = new UsernamePasswordAuthenticationToken(id, null, roles);
                 userService.signup(newUser);
-                return jwtTokenUtil.generateToken(token);
             }
+            List<GrantedAuthority> roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority("USER"));
+            token = new UsernamePasswordAuthenticationToken(id, null, roles);
+            return jwtTokenUtil.generateToken(token);
         }
         catch (Exception e)
         {
