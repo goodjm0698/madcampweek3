@@ -32,10 +32,10 @@ public class Letter {
     private int isAno;
 
     @Column(name = "pos_x")
-    private int posX;
+    private double posX;
 
     @Column(name = "pos_y")
-    private int posY;
+    private double posY;
 
     @Column(name = "img_type")
     private int imgType;

@@ -23,8 +23,8 @@ services:
 
     command:
       - bash
-        - -c
-        - |
+      - -c
+      - |
         ./wait-for-it.sh happytree-db:3306 -s -t 100
         java -jar /app.jar
 

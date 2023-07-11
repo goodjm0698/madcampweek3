@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nimbusds.oauth2.sdk.Response;
 import madcamp.second.model.Letter;
+import madcamp.second.model.LetterForm;
 import madcamp.second.security.JwtTokenUtil;
 import madcamp.second.service.LetterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -29,20 +32,47 @@ public class LetterController
 
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
-    @GetMapping("/sent_letters")
-    public ResponseEntity<String> sentLetters() throws JsonProcessingException {
-        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Letter> letters = letterService.getLettersBySender(id);
-        String json = objectMapper.writeValueAsString(letters);
-        return ResponseEntity.ok(json);
+    @PostMapping("/sent_letters")
+    public ResponseEntity<String> sentLetters(@RequestHeader("Authorization") String token, @RequestBody LetterForm body) throws JsonProcessingException {
+        try
+        {
+            Long senderId = jwtTokenUtil.extractUserId(token.substring(7));
+            Letter letter = new Letter();
+            letter.setIsAno(0);
+            letter.setText(body.getText());
+            letter.setPosX(body.getPosX());
+            letter.setPosY(body.getPosY());
+            letter.setImgType(0);
+            letter.setReceiverId(body.getReceiverId());
+            letter.setSenderId(senderId);
+            letter.setGeneratedDate(LocalDate.now());
+            letter.setOpenDate(LocalDate.now());
+            letterService.createLetter(letter);
+
+            return ResponseEntity.ok("Success!");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("create letter failed");
     }
 
     @GetMapping("/received_letters")
-    public ResponseEntity<String> receivedLetters(@RequestHeader("Authorization") String token) throws JsonProcessingException {
+    public ResponseEntity<String> receivedLetters(@RequestHeader("Authorization") String token, @RequestParam(value = "id", required = false) Long retrieveId) throws JsonProcessingException {
         try
         {
             Long receiverId = jwtTokenUtil.extractUserId(token.substring(7));
-            List<Letter> letters = letterService.getLettersByReceiver(receiverId);
+            List<Letter> letters;
+            if(retrieveId == null)
+            {
+                letters = letterService.getLettersByReceiver(receiverId);
+            }
+            else
+            {
+                letters = letterService.getLettersByReceiver(retrieveId);
+            }
+
             String json = objectMapper.writeValueAsString(letters);
             return ResponseEntity.ok(json);
         }
