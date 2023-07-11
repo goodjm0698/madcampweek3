@@ -37,11 +37,13 @@ public class MainController {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping("/user")
-    public ResponseEntity<String> getUserWithId(@RequestHeader("authorization") String token, @RequestParam Long id)
+    public ResponseEntity<String> getUserWithId(@RequestHeader("authorization") String token, @RequestParam(value = "id", required = false) Long id)
     {
         try
         {
             Long userId = jwtTokenUtil.extractUserId(token.substring(7));
+
+            if(id == null)  return ResponseEntity.ok(userId.toString());
 
             String username = userService.getUserById(id).getUsername();
             String json = objectMapper.writeValueAsString(username);
