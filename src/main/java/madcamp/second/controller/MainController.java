@@ -69,15 +69,19 @@ public class MainController {
     }
 
     @GetMapping("/kakao/sign_in")
-    public ResponseEntity<String> kakaoSignIn(@RequestParam("code") String code)
+    public String kakaoSignIn(@RequestParam("code") String code)
     {
-        Map<String, Object> result = kakaoService.execKakaoLogin(code);
-
-        Gson gson = new Gson();
-
-        System.out.println(gson.toJson(result));
-
-        return ResponseEntity.ok(gson.toJson(result));
+        try
+        {
+            String token = kakaoService.execKakaoLogin(code);
+            System.out.println(token);
+            return "redirect:http://168.131.151.213:4040/kakao?data="+token;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return "redirect:http://168.131.151.213:4040/kakao";
     }
 
     @GetMapping("/")

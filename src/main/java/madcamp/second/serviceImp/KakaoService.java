@@ -3,6 +3,13 @@ package madcamp.second.serviceImp;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import madcamp.second.model.User;
+import madcamp.second.security.JwtTokenUtil;
+import madcamp.second.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -12,19 +19,56 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.Buffer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class KakaoService {
-    public Map<String, Object> execKakaoLogin(String authorize_code)
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    String signupOrLogin(Map<String, Object> userInfo)
+    {
+        try
+        {
+            Long id = (Long) userInfo.get("id");
+            String nickname = (String) userInfo.get("nickname");
+            String accessToken = (String) userInfo.get("access_token");
+
+            User user = userService.getUserById(id);
+            UsernamePasswordAuthenticationToken token;
+            if(user == null)
+            {
+                User newUser = new User();
+                newUser.setId(id);
+                newUser.setUsername(nickname);
+                newUser.setEmail(accessToken.substring(3));
+                newUser.setPassword(accessToken);
+                List<GrantedAuthority> roles = new ArrayList<>();
+                roles.add(new SimpleGrantedAuthority("USER"));
+
+                token = new UsernamePasswordAuthenticationToken(user.getId(), null, roles);
+                userService.signup(newUser);
+                return jwtTokenUtil.generateToken(token);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String execKakaoLogin(String authorize_code)
     {
         String accessToken = getAccessToken(authorize_code);
 
         Map<String, Object> userInfo = getUserInfo(accessToken);
 
-        return userInfo;
+        return signupOrLogin(userInfo);
     }
 
     public Map<String, Object> getUserInfo(String access_token)
