@@ -37,6 +37,9 @@ public class KakaoService {
             Long id = (Long) userInfo.get("id");
             String nickname = (String) userInfo.get("nickname");
             String accessToken = (String) userInfo.get("access_token");
+            System.out.println("id : " + id);
+            System.out.println("nickname : " + nickname);
+            System.out.println("access token : " + accessToken);
 
             User user = userService.getUserById(id);
             UsernamePasswordAuthenticationToken token;
@@ -50,7 +53,7 @@ public class KakaoService {
                 List<GrantedAuthority> roles = new ArrayList<>();
                 roles.add(new SimpleGrantedAuthority("USER"));
 
-                token = new UsernamePasswordAuthenticationToken(user.getId(), null, roles);
+                token = new UsernamePasswordAuthenticationToken(id, null, roles);
                 userService.signup(newUser);
                 return jwtTokenUtil.generateToken(token);
             }
