@@ -28,6 +28,7 @@ public class MainController {
     @Autowired
     UserService userService;
 
+
     @GetMapping("/test")
     @ResponseBody
     public String testConnect()
@@ -153,5 +154,22 @@ public class MainController {
         }
         SecurityContextHolder.clearContext();
         return "redirect:/";
+    }
+    @GetMapping("users")
+    public ResponseEntity<String> getUserList(@RequestHeader("Authorization") String token)
+    {
+        try
+        {
+            Long userId = jwtTokenUtil.extractUserId(token.substring(7));
+
+            List<User> users = userService.getUserList();
+            String json = objectMapper.writeValueAsString(users);
+            return ResponseEntity.ok(json);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("UserList request failed");
     }
 }
