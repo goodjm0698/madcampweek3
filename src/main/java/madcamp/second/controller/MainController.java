@@ -75,6 +75,8 @@ public class MainController {
 
         Gson gson = new Gson();
 
+        System.out.println(gson.toJson(result));
+
         return ResponseEntity.ok(gson.toJson(result));
     }
 
