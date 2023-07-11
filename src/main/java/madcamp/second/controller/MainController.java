@@ -43,7 +43,11 @@ public class MainController {
         {
             Long userId = jwtTokenUtil.extractUserId(token.substring(7));
 
-            if(id == null)  return ResponseEntity.ok(userId.toString());
+            if(id == null)
+            {
+                User user = userService.getUserById(userId);
+                return ResponseEntity.ok(user.getUsername());
+            }
 
             String username = userService.getUserById(id).getUsername();
             String json = objectMapper.writeValueAsString(username);
