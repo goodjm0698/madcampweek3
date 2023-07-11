@@ -43,7 +43,7 @@ public class KakaoService {
 
             connection.setRequestProperty("Authorization", "Bearer " + access_token);
 
-            int responseCode = connection.getResponseCode();
+//            int responseCode = connection.getResponseCode();
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
