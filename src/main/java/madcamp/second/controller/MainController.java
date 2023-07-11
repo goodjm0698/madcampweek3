@@ -1,8 +1,10 @@
 package madcamp.second.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import madcamp.second.model.LoginForm;
 import madcamp.second.model.SignUpForm;
 import madcamp.second.model.User;
+import madcamp.second.security.JwtTokenUtil;
 import madcamp.second.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import madcamp.second.serviceImp.KakaoService;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -28,6 +31,28 @@ public class MainController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    @GetMapping("/user")
+    public ResponseEntity<String> getUserWithId(@RequestHeader("authorization") String token, @RequestParam Long id)
+    {
+        try
+        {
+            Long userId = jwtTokenUtil.extractUserId(token.substring(7));
+
+            String username = userService.getUserById(id).getUsername();
+            String json = objectMapper.writeValueAsString(username);
+            return ResponseEntity.ok(json);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("User request failed");
+    }
 
     @GetMapping("/test")
     @ResponseBody
@@ -83,7 +108,8 @@ public class MainController {
         try
         {
             Authentication token = userService.login(email, password);
-            String body = userService.generateToken(token);
+            String body = jwtTokenUtil.generateToken(token);
+
 
             return ResponseEntity.ok(body);
         }
@@ -93,6 +119,24 @@ public class MainController {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(error);
         }
+    }
+
+    @GetMapping("users")
+    public ResponseEntity<String> getUserList(@RequestHeader("Authorization") String token)
+    {
+        try
+        {
+            Long userId = jwtTokenUtil.extractUserId(token.substring(7));
+
+            List<User> users = userService.getUserList();
+            String json = objectMapper.writeValueAsString(users);
+            return ResponseEntity.ok(json);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("UserList request failed");
     }
 
     @GetMapping("/signup")
@@ -154,22 +198,5 @@ public class MainController {
         }
         SecurityContextHolder.clearContext();
         return "redirect:/";
-    }
-    @GetMapping("users")
-    public ResponseEntity<String> getUserList(@RequestHeader("Authorization") String token)
-    {
-        try
-        {
-            Long userId = jwtTokenUtil.extractUserId(token.substring(7));
-
-            List<User> users = userService.getUserList();
-            String json = objectMapper.writeValueAsString(users);
-            return ResponseEntity.ok(json);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return ResponseEntity.badRequest().body("UserList request failed");
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
 public interface UserService {
     User getUserById(Long id);
     User getUserByEmail(String email);
@@ -16,6 +18,5 @@ public interface UserService {
 
     Authentication login(String email, String password);
 
-    String generateToken(Authentication authentication);
-
+    List<User> getUserList();
 }
