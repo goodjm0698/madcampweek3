@@ -31,6 +31,8 @@ public class KakaoService {
     {
         Map<String, Object> userInfo = new HashMap<>();
 
+        userInfo.put("access_token", access_token);
+
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
         try
@@ -42,8 +44,6 @@ public class KakaoService {
             connection.setRequestMethod("GET");
 
             connection.setRequestProperty("Authorization", "Bearer " + access_token);
-
-//            int responseCode = connection.getResponseCode();
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
@@ -59,10 +59,11 @@ public class KakaoService {
 
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-
+            Long id = element.getAsJsonObject().get("id").getAsLong();
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 
             userInfo.put("nickname", nickname);
+            userInfo.put("id", id);
         }
         catch(Exception e)
         {
