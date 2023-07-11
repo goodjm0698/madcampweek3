@@ -23,6 +23,7 @@ repositories {
 
 dependencies {
     implementation ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.4")
+    implementation ("mysql:mysql-connector-java:8.0.26")
     implementation ("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.2")

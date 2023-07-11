@@ -1,6 +1,6 @@
 version: "3"
 services:
-  database:
+  happytree-db:
     image: mysql:5.7
     platform: linux/x86_64
     restart: unless-stopped
@@ -29,6 +29,6 @@ services:
         java -jar /app.jar
 
     ports:
-      - 4000:8080
+      - 8080:8080
     depends_on:
-      - database
+      - happytree-db
