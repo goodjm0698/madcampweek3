@@ -47,7 +47,8 @@ public class MainController {
             if(id == null)
             {
                 User user = userService.getUserById(userId);
-                return ResponseEntity.ok(user.getUsername());
+                String json = objectMapper.writeValueAsString(user.getUsername());
+                return ResponseEntity.ok(json);
             }
 
             String username = userService.getUserById(id).getUsername();
