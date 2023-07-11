@@ -1,6 +1,7 @@
 package madcamp.second.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import madcamp.second.model.LoginForm;
 import madcamp.second.model.SignUpForm;
 import madcamp.second.model.User;
@@ -68,11 +69,13 @@ public class MainController {
     }
 
     @GetMapping("/kakao/sign_in")
-            public String kakaoSignIn(@RequestParam("code") String code)
+    public ResponseEntity<String> kakaoSignIn(@RequestParam("code") String code)
     {
         Map<String, Object> result = kakaoService.execKakaoLogin(code);
 
-        return "redirect:webauthcallback://success?customToken="+result.get("customToken").toString();
+        Gson gson = new Gson();
+
+        return ResponseEntity.ok(gson.toJson(result));
     }
 
     @GetMapping("/")

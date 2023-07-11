@@ -61,10 +61,8 @@ public class KakaoService {
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            String email = kakao_account.getAsJsonObject().get("email").getAsString();
 
             userInfo.put("nickname", nickname);
-            userInfo.put("email", email);
         }
         catch(Exception e)
         {
@@ -93,9 +91,9 @@ public class KakaoService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
             StringBuilder sb = new StringBuilder();
 
-            sb.append("grant_type=authorization_code");
+            sb.append("grant_type=" + authorize_code);
             sb.append("&client_id=03121ea92a07aca04abc58e321f84cef");
-            sb.append("&redirect_ur=http://127.0.0.1/sign_in");
+            sb.append("&redirect_ur=http://168.131.151.213:4040/kakao/sign_in");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
@@ -111,6 +109,8 @@ public class KakaoService {
             {
                 result += line;
             }
+
+            System.out.println(result);
 
             JsonElement element = JsonParser.parseString(result);
 
