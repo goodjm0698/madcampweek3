@@ -14,7 +14,7 @@
         WHERE farm_id = #{farmId}
     </select>
 
-    <select id="getPaperById" resultType="PaperResultMap">
+    <select id="getPaperById" resultMap="PaperResultMap">
         SELECT *
         FROM paper
         WHERE id = #{id}
