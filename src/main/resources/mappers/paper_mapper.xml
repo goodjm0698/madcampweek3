@@ -23,7 +23,6 @@
     <insert id="createPaper">
         INSERT INTO paper (id, farm_id, text, sender_id)
         WHERE (#{id}, #{farmId}, #{text}, #{senderId})
-
     </insert>
 
 </mapper>

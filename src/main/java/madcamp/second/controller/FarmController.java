@@ -91,6 +91,8 @@ public class FarmController {
         {
             Long userId = jwtTokenUtil.extractUserId(token);
 
+            System.out.println(userId);
+            System.out.println(paperForm.getReceiverId() + " " + paperForm.getText());
             Paper paper = new Paper();
             paper.setFarmId(paperForm.getReceiverId());
             paper.setText(paperForm.getText());
