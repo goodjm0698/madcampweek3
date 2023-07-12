@@ -89,7 +89,8 @@ public class FarmController {
     {
         try
         {
-            Long userId = jwtTokenUtil.extractUserId(token);
+            System.out.println("extracttoken something wrong");
+            Long userId = jwtTokenUtil.extractUserId(token.substring(7));
 
             System.out.println(userId);
             System.out.println(paperForm.getReceiverId() + " " + paperForm.getText());
