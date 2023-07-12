@@ -94,10 +94,10 @@ public class LetterController
 
             System.out.println("yeonuk's receiverid and userid is : "+letter.getReceiverId()+", "+userId);
 
-            if(userId!=letter.getReceiverId())
-            {
-                throw new BadCredentialsException("You are not receiver");
-            }
+//            if(userId != letter.getReceiverId())
+//            {
+//                throw new BadCredentialsException("You are not receiver");
+//            }
 
             String json = objectMapper.writeValueAsString(letter);
             return ResponseEntity.ok(json);

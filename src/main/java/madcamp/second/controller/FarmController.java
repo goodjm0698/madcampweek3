@@ -30,7 +30,7 @@ public class FarmController {
     {
         try
         {
-            if(!jwtTokenUtil.validateToken(token))  throw new BadCredentialsException("You are not enrolled or jwt is not valid");
+            // if(!jwtTokenUtil.validateToken(token))  throw new BadCredentialsException("You are not enrolled or jwt is not valid");
 
             List<Farm> farms = farmService.getFarmList();
             String json = objectMapper.writeValueAsString(farms);
@@ -48,7 +48,7 @@ public class FarmController {
     {
         try
         {
-            if(!jwtTokenUtil.validateToken(token))  throw new BadCredentialsException("Invalid User");
+            // if(!jwtTokenUtil.validateToken(token))  throw new BadCredentialsException("Invalid User");
 
             List<User> users = farmService.getUserListWithFarm(farmId);
             String json = objectMapper.writeValueAsString(users);
