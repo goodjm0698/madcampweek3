@@ -54,11 +54,6 @@ public class UserServiceImp implements UserService {
     @Override
     public void signup(User user) throws BadCredentialsException
     {
-        if(getUserByEmail(user.getEmail()) != null)
-        {
-            throw new BadCredentialsException("this email is already in use");
-        }
-
         if(!user.getUsername().equals("") && !user.getEmail().equals(""))
         {
             user.setPassword(passwordEncoder().encode(user.getPassword()));
