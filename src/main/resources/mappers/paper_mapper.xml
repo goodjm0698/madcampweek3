@@ -21,8 +21,8 @@
     </select>
 
     <insert id="createPaper">
-        INSERT INTO paper (id, farm_id, text, sender_id)
-        WHERE (#{id}, #{farmId}, #{text}, #{senderId})
+        INSERT INTO paper (farm_id, text, sender_id)
+        WHERE (#{farmId}, #{text}, #{senderId})
     </insert>
 
 </mapper>
