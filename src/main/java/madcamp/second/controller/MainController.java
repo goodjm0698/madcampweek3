@@ -37,6 +37,13 @@ public class MainController {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+
+    @GetMapping("/kakao/sign_in")
+    public String getWaitingScreen()
+    {
+        return "pleasewait";
+    }
+
     @GetMapping("/user")
     public ResponseEntity<String> getUserWithId(@RequestHeader("Authorization") String token, @RequestParam(value = "id", required = false) Long id)
     {
