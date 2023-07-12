@@ -1,0 +1,15 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="madcamp.second.mapper.PaperMapper">
+    <select id="getPaperListWithFarm" resultType="Paper">
+        SELECT *
+        FROM paper
+        WHERE farm_id = #{farmId}
+    </select>
+
+    <select id="getPaperById" resultType="Paper">
+        SELECT *
+        FROM paper
+        WHERE id = #{id}
+    </select>
+
+</mapper>

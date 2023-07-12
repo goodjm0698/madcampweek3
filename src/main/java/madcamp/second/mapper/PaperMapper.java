@@ -10,6 +10,4 @@ public interface PaperMapper {
     Paper getPaperById(Long id);
 
     List<Paper> getPaperListWithFarm(Long farmId);
-
-
 }
