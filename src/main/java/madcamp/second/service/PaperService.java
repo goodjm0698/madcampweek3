@@ -9,4 +9,6 @@ public interface PaperService {
 
     Paper getPaperById(Long id);
 
+    void createPaper(Paper paper);
+
 }

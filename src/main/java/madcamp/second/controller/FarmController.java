@@ -3,6 +3,7 @@ package madcamp.second.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import madcamp.second.model.Farm;
 import madcamp.second.model.Paper;
+import madcamp.second.model.PaperForm;
 import madcamp.second.model.User;
 import madcamp.second.security.JwtTokenUtil;
 import madcamp.second.service.FarmService;
@@ -11,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -77,6 +76,29 @@ public class FarmController {
             Paper paper = paperService.getPaperById(paperId);
             String json = objectMapper.writeValueAsString(paper);
             return ResponseEntity.ok(json);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("Cannot load paper");
+    }
+
+    @PostMapping("sent_paper")
+    public ResponseEntity<String> getPaper(@RequestHeader("Authorization") String token, @RequestBody PaperForm paperForm)
+    {
+        try
+        {
+            Long userId = jwtTokenUtil.extractUserId(token);
+
+            Paper paper = new Paper();
+            paper.setFarmId(paperForm.getReceiverId());
+            paper.setText(paperForm.getText());
+            paper.setSenderId(userId);
+
+            paperService.createPaper(paper);
+
+            return ResponseEntity.ok("create success");
         }
         catch (Exception e)
         {

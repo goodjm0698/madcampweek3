@@ -23,4 +23,9 @@ public class PaperServiceImp implements PaperService {
     public Paper getPaperById(Long id) {
         return paperMapper.getPaperById(id);
     }
+
+    public void createPaper(Paper paper)
+    {
+        paperMapper.createPaper(paper);
+    }
 }
