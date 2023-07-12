@@ -92,6 +92,8 @@ public class LetterController
 
             Letter letter = letterService.getLetterById(id);
 
+            System.out.println("yeonuk's receiverid and userid is : "+letter.getReceiverId()+", "+userId);
+
             if(userId!=letter.getReceiverId())
             {
                 throw new BadCredentialsException("You are not receiver");

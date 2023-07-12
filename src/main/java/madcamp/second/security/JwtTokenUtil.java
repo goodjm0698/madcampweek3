@@ -1,6 +1,7 @@
 package madcamp.second.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -30,6 +31,22 @@ public class JwtTokenUtil {
     {
         byte[] decodedKey = java.util.Base64.getDecoder().decode(jwtSecret);
         this.key = new SecretKeySpec(decodedKey, "HmacSHA512");
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            // Parse the token and verify the signature using the secret key
+            Jws<Claims> claimsJws = Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+                    .build()
+                    .parseClaimsJws(token);
+
+            // The token signature is valid, and the token is successfully parsed
+            return true;
+        } catch (Exception e) {
+            // Token validation failed
+            return false;
+        }
     }
 
     public static boolean isExpired(String token, String secretKey) {

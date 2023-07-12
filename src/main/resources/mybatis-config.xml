@@ -8,6 +8,7 @@
     <typeAliases>
         <typeAlias type="madcamp.second.model.User" alias="User"/>
         <typeAlias type="madcamp.second.model.Letter" alias="Letter"/>
+        <typeAlias type="madcamp.second.model.Farm" alias="Farm"/>
     </typeAliases>
 
     <mappers>
