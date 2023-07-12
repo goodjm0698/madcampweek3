@@ -6,7 +6,10 @@
     </select>
 
     <select id="getUserListWithFarm" resultType="User">
-
+        SELECT user.*
+        FROM user
+        JOIN userfarm ON userfarm.user_id = user.user_id
+        WHERE userfarm.farm_id = #{farmId}
     </select>
 
 </mapper>
