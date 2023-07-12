@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import madcamp.second.serviceImp.KakaoService;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
@@ -37,12 +38,6 @@ public class MainController {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-
-    @GetMapping("/kakao/sign_in")
-    public String getWaitingScreen()
-    {
-        return "pleasewait";
-    }
 
     @GetMapping("/user")
     public ResponseEntity<String> getUserWithId(@RequestHeader("Authorization") String token, @RequestParam(value = "id", required = false) Long id)
@@ -77,20 +72,27 @@ public class MainController {
     }
 
     @GetMapping("/kakao/sign_in")
-    public String kakaoSignIn(@RequestParam("code") String code)
+    public ModelAndView kakaoSignIn(@RequestParam("code") String code, ModelAndView modelAndView)
     {
         try
         {
+            modelAndView.setViewName("waitingView"); // This is the HTML view to display as the request arrives
+            modelAndView.addObject("message", "Please wait while we are processing your request…");
+
             String token = kakaoService.execKakaoLogin(code);
             System.out.println(token);
-            return "redirect:http://168.131.151.213:4040/kakao?data="+token;
+
+            modelAndView.setViewName("redirect:http://168.131.151.213:4040/kakao?data="+token);
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            modelAndView.setViewName("redirect:http://168.131.151.213:4040/kakao");
         }
-        return "redirect:http://168.131.151.213:4040/kakao";
+
+        return modelAndView;
     }
+
 
     @GetMapping("/")
     public String mainPage(Model model)
