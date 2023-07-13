@@ -76,11 +76,10 @@ public class MainController {
     {
         try
         {
-            modelAndView.setViewName("waitingView"); // This is the HTML view to display as the request arrives
+            modelAndView.setViewName("pleasewait");
             modelAndView.addObject("message", "Please wait while we are processing your request…");
 
             String token = kakaoService.execKakaoLogin(code);
-            System.out.println(token);
 
             modelAndView.setViewName("redirect:http://168.131.151.213:4040/kakao?data="+token);
         }

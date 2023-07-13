@@ -42,7 +42,7 @@ public class LetterController
             letter.setText(body.getText());
             letter.setPosX(body.getPosX());
             letter.setPosY(body.getPosY());
-            letter.setImgType((int)(Math.random()*14));
+            letter.setImgType((int)(Math.random()*6));
             letter.setReceiverId(body.getReceiverId());
             letter.setSenderId(senderId);
             letter.setGeneratedDate(LocalDate.now());
