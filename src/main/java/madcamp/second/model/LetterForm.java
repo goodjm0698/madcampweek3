@@ -21,11 +21,14 @@ public class LetterForm {
 
     private String text;
 
+    private int isAno;
+
     public static LetterForm fromJson(Map<String, Object> json) {
         Long receivedId = (Long) json.get("receivedId");
         String text = (String) json.get("text");
         double posX = (Double) json.get("posX");
         double posY = (Double) json.get("posY");
-        return new LetterForm(receivedId, posX, posY, text);
+        int isAno = (int) json.get("isAno");
+        return new LetterForm(receivedId, posX, posY, text, isAno);
     }
 }

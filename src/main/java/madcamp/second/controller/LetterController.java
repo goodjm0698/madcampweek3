@@ -38,7 +38,7 @@ public class LetterController
         {
             Long senderId = jwtTokenUtil.extractUserId(token.substring(7));
             Letter letter = new Letter();
-            letter.setIsAno(0);
+            letter.setIsAno(body.getIsAno());
             letter.setText(body.getText());
             letter.setPosX(body.getPosX());
             letter.setPosY(body.getPosY());
@@ -91,8 +91,6 @@ public class LetterController
             Long userId = jwtTokenUtil.extractUserId(token.substring(7));
 
             Letter letter = letterService.getLetterById(id);
-
-            System.out.println("yeonuk's receiverid and userid is : "+letter.getReceiverId()+", "+userId);
 
 //            if(userId != letter.getReceiverId())
 //            {
