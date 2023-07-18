@@ -3,7 +3,7 @@
 
     <resultMap id="LetterResultMap" type="Letter">
         <id property="id" column="id" />
-        <result property="senderId" column="senderId" />
+        <result property="senderId" column="sender_id" />
 <!--        <result property="receiverId" column="receiver_id" />-->
         <result property="writtenDate" column="writtenDate" />
         <result property="text" column="text" />
@@ -19,7 +19,7 @@
     <select id="getLettersBySender" resultType="Long">
         SELECT id
         FROM letter
-        WHERE senderId = #{senderId}
+        WHERE sender_id = #{senderId}
     </select>
 
 <!--    <select id="getLettersByReceiver" resultMap="LetterResultMap">-->
@@ -30,10 +30,10 @@
 
     <select id="getLettersByReceiver" resultMap="LetterResultMap">
         SELECT *
-        FROM letter
+        FROM diary
         WHERE STR_TO_DATE(writtenDate, '%Y-%m-%d') BETWEEN DATE_SUB(STR_TO_DATE(#{writtenDate}, '%Y-%m-%d'), INTERVAL 1 MONTH)
-        AND DATE_ADD(STR_TO_DATE(#{writtenDate}, '%Y-%m-%d'), INTERVAL 1 MONTH)
-        AND senderId = #{senderId};
+        AND DATE_ADD(STR_TO_DATE(#{writtenDate}, '%Y-%m-%d'), INTERVAL 1 MONTH);
+        and senderId = #{senderId};
     </select>
 
 
@@ -45,7 +45,7 @@
 
     <insert id="createLetter">
         INSERT INTO letter
-            (senderId, text, writtenDate,emotion,weather)
+            (sender_id, text, writtenDate,emotion,weather)
         VALUES
             (#{senderId},#{text}, #{writtenDate},#{emotion},#{weather})
     </insert>

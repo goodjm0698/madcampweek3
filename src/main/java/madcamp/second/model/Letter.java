@@ -14,7 +14,7 @@ public class Letter {
     @Column(name = "id")
     Long id;
 
-    @Column(name = "sender_id")
+    @Column(name = "senderId")
     private Long senderId;
 
     // @Column(name = "receiver_id")
