@@ -32,17 +32,17 @@
             (#{id}, #{email}, #{password}, #{username})
     </insert>
 
-    <update id="updateUser">
-        UPDATE user
-        SET email = #{email},
-            password = #{password},
-            username= #{username}
-        WHERE id = #{id}
-    </update>
+<!--    <update id="updateUser">-->
+<!--        UPDATE user-->
+<!--        SET email = #{email},-->
+<!--            password = #{password},-->
+<!--            username= #{username}-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
 
-    <delete id="withdrawUser">
-        DELETE
-        FROM user
-        WHERE id=#{id}
-    </delete>
+<!--    <delete id="withdrawUser">-->
+<!--        DELETE-->
+<!--        FROM user-->
+<!--        WHERE id=#{id}-->
+<!--    </delete>-->
 </mapper>
