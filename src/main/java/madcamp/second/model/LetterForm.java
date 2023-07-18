@@ -21,6 +21,8 @@ public class LetterForm {
 
     private String text;
 
+    private String writtenDate;
+
     private String emotion;
 
     private String weather;
@@ -30,12 +32,15 @@ public class LetterForm {
     public static LetterForm fromJson(Map<String, Object> json) {
         // Long receivedId = (Long) json.get("receivedId");
         String text = (String) json.get("text");
+        String writtenDate = (String) json.get("writtenDate");
         String emotion = (String) json.get("emotion");
         String weather = (String) json.get("weather");
         // double posX = (Double) json.get("posX");
         // double posY = (Double) json.get("posY");
         // int isAno = (int) json.get("isAno");
-        return new LetterForm(text,emotion,weather);
+        return new LetterForm(text,writtenDate,emotion,weather);
     }
+
+
 }
 //안써도 될 듯

@@ -23,8 +23,8 @@ public class Letter {
     @Column(name = "text")
     private String text;
 
-    @Column(name = "generated_date")
-    private LocalDate generatedDate;
+    @Column(name = "writtenDate")
+    private String writtenDate;
 
     // @Column(name = "open_date")
     // private LocalDate openDate;

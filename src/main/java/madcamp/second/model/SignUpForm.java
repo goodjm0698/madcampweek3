@@ -21,7 +21,7 @@ public class SignUpForm {
     public static LoginForm fromJson(Map<String, Object> json) {
         String email = (String) json.get("email");
         String password = (String) json.get("password");
-        String usename = (String) json.get("username");
+        String username = (String) json.get("username");
         return new LoginForm(email, password);
     }
 

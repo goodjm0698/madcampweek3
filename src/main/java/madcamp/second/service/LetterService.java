@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface LetterService {
     List<Letter> getLettersBySender(Long senderId);
-    List<Letter> getLettersByReceiver(Long receiverId);
+    List<Letter> getLettersByReceiver(Long senderId,String writtenDate);
     void createLetter(Letter letter);
-    void updateLetter(Letter letter);
-    void withdrawLetter(Long id);
+//    void updateLetter(Letter letter);
+//    void withdrawLetter(Long id);
     Letter getLetterById(Long id);
 }

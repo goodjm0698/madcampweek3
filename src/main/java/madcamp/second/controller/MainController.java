@@ -198,34 +198,34 @@ public class MainController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/updateProfile")
-    public String editProfilePage(Model model)
-    {
-        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "editProfilePage";
-    }
-
-    @PostMapping("/updateProfile")
-    public String editProfile(User user)
-    {
-        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        user.setId(id);
-        userService.editUser(user);
-        return "redirect:/";
-    }
-
-    @GetMapping("/withdrawProfile")
-    public String withdrawProfilePage()
-    {
-        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(id!=null)
-        {
-            userService.withdrawProfile(id);
-        }
-        SecurityContextHolder.clearContext();
-        return "redirect:/";
-    }
+//    @GetMapping("/updateProfile")
+//    public String editProfilePage(Model model)
+//    {
+//        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User user = userService.getUserById(id);
+//        model.addAttribute("user", user);
+//        return "editProfilePage";
+//    }
+//
+//    @PostMapping("/updateProfile")
+//    public String editProfile(User user)
+//    {
+//        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        user.setId(id);
+//        userService.editUser(user);
+//        return "redirect:/";
+//    }
+//
+//    @GetMapping("/withdrawProfile")
+//    public String withdrawProfilePage()
+//    {
+//        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if(id!=null)
+//        {
+//            userService.withdrawProfile(id);
+//        }
+//        SecurityContextHolder.clearContext();
+//        return "redirect:/";
+//    }
 }

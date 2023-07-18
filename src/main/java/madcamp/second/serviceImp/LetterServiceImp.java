@@ -22,29 +22,31 @@ public class LetterServiceImp implements LetterService {
     }
 
     @Override
-    public List<Letter> getLettersByReceiver(Long receiverId) {
+    public List<Letter> getLettersByReceiver(Long senderId,String writtenDate) {
 
-        return letterMapper.getLettersByReceiver(receiverId);
+        return letterMapper.getLettersByReceiver(senderId,writtenDate);
     }
 
     @Override
     public void createLetter(Letter letter) {
+
         letterMapper.createLetter(letter);
     }
 
     @Override
     public Letter getLetterById(Long id)
     {
+
         return letterMapper.getLetterById(id);
     }
 
-    @Override
-    public void updateLetter(Letter letter) {
-        letterMapper.updateLetter(letter);
-    }
-
-    @Override
-    public void withdrawLetter(Long id) {
-        letterMapper.withdrawLetter(id);
-    }
+//    @Override
+//    public void updateLetter(Letter letter) {
+//        letterMapper.updateLetter(letter);
+//    }
+//
+//    @Override
+//    public void withdrawLetter(Long id) {
+//        letterMapper.withdrawLetter(id);
+//    }
 }

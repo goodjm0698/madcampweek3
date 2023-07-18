@@ -48,7 +48,7 @@ public class LetterController
 
             // letter.setReceiverId(body.getReceiverId());
             letter.setSenderId(senderId);
-            letter.setGeneratedDate(LocalDate.now());
+            letter.setWrittenDate(body.getWrittenDate());
             // letter.setOpenDate(LocalDate.now());
             letterService.createLetter(letter);
 
@@ -62,19 +62,12 @@ public class LetterController
     }
 
     @GetMapping("/received_letters")
-    public ResponseEntity<String> receivedLetters(@RequestHeader("Authorization") String token, @RequestParam(value = "id", required = false) Long retrieveId) throws JsonProcessingException {
+    public ResponseEntity<String> receivedLetters(@RequestHeader("Authorization") String token, @RequestParam(value = "writtenDate", required = false) String writtenDate) throws JsonProcessingException {
         try
         {
-            Long receiverId = jwtTokenUtil.extractUserId(token.substring(7));
+            Long senderId = jwtTokenUtil.extractUserId(token.substring(7));
             List<Letter> letters;
-            if(retrieveId == null)
-            {
-                letters = letterService.getLettersByReceiver(receiverId);
-            }
-            else
-            {
-                letters = letterService.getLettersByReceiver(retrieveId);
-            }
+            letters = letterService.getLettersByReceiver(senderId,writtenDate);
 
             String json = objectMapper.writeValueAsString(letters);
             return ResponseEntity.ok(json);
@@ -85,6 +78,30 @@ public class LetterController
         }
         return ResponseEntity.badRequest().body("request failed");
     }
+//    @GetMapping("/received_letters")
+//    public ResponseEntity<String> receivedLetters(@RequestHeader("Authorization") String token, @RequestParam(value = "id", required = false) Long retrieveId) throws JsonProcessingException {
+//        try
+//        {
+//            Long receiverId = jwtTokenUtil.extractUserId(token.substring(7));
+//            List<Letter> letters;
+//            if(retrieveId == null)
+//            {
+//                letters = letterService.getLettersByReceiver(receiverId);
+//            }
+//            else
+//            {
+//                letters = letterService.getLettersByReceiver(retrieveId);
+//            }
+//
+//            String json = objectMapper.writeValueAsString(letters);
+//            return ResponseEntity.ok(json);
+//        }
+//        catch(JsonProcessingException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        return ResponseEntity.badRequest().body("request failed");
+//    }
 
     @GetMapping("/letter")
     public ResponseEntity<String> getLetter(@RequestHeader("Authorization") String token, @RequestParam Long id)
