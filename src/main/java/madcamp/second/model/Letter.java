@@ -1,6 +1,7 @@
 package madcamp.second.model;
 
 import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,8 +17,8 @@ public class Letter {
     @Column(name = "sender_id")
     private Long senderId;
 
-    @Column(name = "receiver_id")
-    private Long receiverId;
+    // @Column(name = "receiver_id")
+    // private Long receiverId;
 
     @Column(name = "text")
     private String text;
@@ -25,18 +26,24 @@ public class Letter {
     @Column(name = "generated_date")
     private LocalDate generatedDate;
 
-    @Column(name = "open_date")
-    private LocalDate openDate;
+    // @Column(name = "open_date")
+    // private LocalDate openDate;
 
-    @Column(name = "is_ano")
-    private int isAno;
+    @Column(name = "emotion")
+    private String emotion;
 
-    @Column(name = "pos_x")
-    private double posX;
+    @Column(name = "weather")
+    private String weather;
 
-    @Column(name = "pos_y")
-    private double posY;
+    // @Column(name = "is_ano")
+    // private int isAno;
 
-    @Column(name = "img_type")
-    private int imgType;
+    // @Column(name = "pos_x")
+    // private double posX;
+
+    // @Column(name = "pos_y")
+    // private double posY;
+
+    // @Column(name = "img_type")
+    // private int imgType;
 }

@@ -38,15 +38,18 @@ public class LetterController
         {
             Long senderId = jwtTokenUtil.extractUserId(token.substring(7));
             Letter letter = new Letter();
-            letter.setIsAno(body.getIsAno());
+            // letter.setIsAno(body.getIsAno());
+            // letter.setPosX(body.getPosX());
+            // letter.setPosY(body.getPosY());
+            // letter.setImgType((int)(Math.random()*6));
             letter.setText(body.getText());
-            letter.setPosX(body.getPosX());
-            letter.setPosY(body.getPosY());
-            letter.setImgType((int)(Math.random()*6));
-            letter.setReceiverId(body.getReceiverId());
+            letter.setEmotion(body.getEmotion());
+            letter.setWeather(body.getWeather());
+
+            // letter.setReceiverId(body.getReceiverId());
             letter.setSenderId(senderId);
             letter.setGeneratedDate(LocalDate.now());
-            letter.setOpenDate(LocalDate.now());
+            // letter.setOpenDate(LocalDate.now());
             letterService.createLetter(letter);
 
             return ResponseEntity.ok("Success!");
@@ -107,23 +110,23 @@ public class LetterController
         return ResponseEntity.badRequest().body("request failed");
     }
 
-    @GetMapping("/update_letter/{id}")
-    public ResponseEntity<String> updateLetter(@PathVariable("id") Long id, @RequestBody Letter letter) throws Exception
-    {
-        Letter origin = letterService.getLetterById(id);
-        origin.setText(letter.getText());
-        origin.setIsAno(letter.getIsAno());
+    // @GetMapping("/update_letter/{id}")
+    // public ResponseEntity<String> updateLetter(@PathVariable("id") Long id, @RequestBody Letter letter) throws Exception
+    // {
+    //     Letter origin = letterService.getLetterById(id);
+    //     origin.setText(letter.getText());
+    //     origin.setIsAno(letter.getIsAno());
 
-        letterService.updateLetter(origin);
-        String json = objectMapper.writeValueAsString(origin);
-        return ResponseEntity.ok(json);
-    }
+    //     letterService.updateLetter(origin);
+    //     String json = objectMapper.writeValueAsString(origin);
+    //     return ResponseEntity.ok(json);
+    // }
 
-    @GetMapping("/delete_letter/{id}")
-    public ResponseEntity<String> withdrawLetter(@PathVariable("id") Long id)
-    {
-        letterService.withdrawLetter(id);
-        String json = "deleted successfully";
-        return ResponseEntity.ok(json);
-    }
+    // @GetMapping("/delete_letter/{id}")
+    // public ResponseEntity<String> withdrawLetter(@PathVariable("id") Long id)
+    // {
+    //     letterService.withdrawLetter(id);
+    //     String json = "deleted successfully";
+    //     return ResponseEntity.ok(json);
+    // }
 }
