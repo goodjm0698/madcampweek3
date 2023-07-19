@@ -36,7 +36,9 @@ We have created a model that analyzes emotions in diary entries and classifies t
  - Login
  - Sign up
 
-![login](/photos/login.jpeg)
+<img src="https://github.com/goodjm0698/madcampweek3/assets/64831392/dc03f987-ec86-498a-bd8e-6d281de383e8" width="500">
+<img src="https://github.com/goodjm0698/madcampweek3/assets/64831392/0f783979-d2e3-4144-af72-aaccf5c7388b" width="500">
+
 
 ### Section 2. Write Diary
 - Write diary by text
