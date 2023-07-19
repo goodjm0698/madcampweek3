@@ -21,6 +21,7 @@ We have created a model that analyzes emotions in diary entries and classifies t
  
  ### Dataset
  감성대화 말뭉치 (https://aihub.or.kr/aidata/7978)
+ <img width="1419" alt="스크린샷 2023-07-19 오후 8 17 25" src="https://github.com/goodjm0698/madcampweek3/assets/64831392/4f7b52f0-99f3-49b0-94a0-6afb9bf8b60c">
  
  ### Model 
  Emotion classification using the PyTorch library and the KoBERT model.
@@ -28,6 +29,7 @@ We have created a model that analyzes emotions in diary entries and classifies t
  ### Data Preprocessing
  - Utilizing the tokenization function from the Transformer-based KoBERT model to tokenize and vectorize the given text.
  - Multi-category classification for the seven emotions.
+ <img width="238" alt="스크린샷 2023-07-19 오후 8 19 10" src="https://github.com/goodjm0698/madcampweek3/assets/64831392/5b700b02-44af-431b-8225-a10405b8b760">
  
  ## Main Function
  ### Section 1. User Handling
@@ -35,9 +37,6 @@ We have created a model that analyzes emotions in diary entries and classifies t
  - Sign up
 
 ![login](/photos/login.jpeg)
-![signup](/photos/signup.jpeg)
-![wrong](/photos/wrong.jpeg)
-![invalid](/photos/invalid.jpeg)
 
 ### Section 2. Write Diary
 - Write diary by text
