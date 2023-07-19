@@ -69,6 +69,7 @@ public class LetterController
             List<Letter> letters;
             letters = letterService.getLettersByReceiver(senderId,writtenDate);
 
+
             String json = objectMapper.writeValueAsString(letters);
             return ResponseEntity.ok(json);
         }
